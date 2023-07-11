@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { MovieController } from './movie.controller';
+import { MovieService } from './movie.service';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [ConfigModule.forRoot(), HttpModule],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [MovieController],
+  providers: [MovieService],
 })
-export class AppModule {}
+export class MovieModule {}

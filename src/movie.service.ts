@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { MovieDTO } from './movie.dto';
 
 @Injectable()
-export class AppService {
+export class MovieService {
   constructor(private readonly httpService: HttpService) {}
 
   async getMovie(movieName: string): Promise<MovieDTO> {
