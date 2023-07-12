@@ -1,6 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { HttpException, Injectable } from '@nestjs/common';
-import { ErrorResponse, MovieDTO, MovieResponse } from './movie.dto';
+import { ErrorResponse, MovieDTO, MovieResponse } from './movie.type';
 
 @Injectable()
 export class MovieService {
@@ -8,6 +8,23 @@ export class MovieService {
 
   checkError(data: MovieResponse | ErrorResponse): data is ErrorResponse {
     return 'Error' in data;
+  }
+
+  formatMovieData(data: MovieResponse): MovieDTO {
+    const runtime = data.Runtime.split('Duration: ')[0];
+    const movie: MovieDTO = {
+      title: data.Title,
+      year: data.Year,
+      actors: data.Actors,
+      awards: data.Awards,
+      genre: data.Genre,
+      plot: data.Plot,
+      poster: data.Poster,
+      released: data.Released,
+      runtime,
+      imdbRating: data.imdbRating,
+    };
+    return movie;
   }
 
   async getMovie(movieName: string): Promise<MovieDTO> {
@@ -20,19 +37,6 @@ export class MovieService {
     if (this.checkError(data)) {
       throw new HttpException(data.Error, 404);
     }
-
-    const movie: MovieDTO = {
-      title: data.Title,
-      year: data.Year,
-      actors: data.Actors,
-      awards: data.Awards,
-      genre: data.Genre,
-      plot: data.Plot,
-      poster: data.Poster,
-      released: data.Released,
-      runtime: data.Runtime,
-      imdbRating: data.imdbRating,
-    };
-    return movie;
+    return this.formatMovieData(data);
   }
 }
