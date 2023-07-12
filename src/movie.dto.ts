@@ -43,3 +43,8 @@ interface Rating {
   Source: string;
   Value: string;
 }
+
+export interface ErrorResponse {
+  Response: string;
+  Error: string;
+}
