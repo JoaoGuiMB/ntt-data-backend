@@ -17,11 +17,18 @@ describe('MovieController', () => {
     movieController = app.get<MovieController>(MovieController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', async () => {
+  describe('getMovie', () => {
+    it('should return movie', async () => {
       const movieName = 'the avengers';
       const res = await movieController.getMovie(movieName);
       expect(res.title.toLowerCase()).toBe(movieName);
+    });
+
+    it('should throw not found movie', async () => {
+      const movieName = 'aqqqsdsdsdasdqweqwe';
+      await expect(movieController.getMovie(movieName)).rejects.toThrow(
+        'Movie not found',
+      );
     });
   });
 });
